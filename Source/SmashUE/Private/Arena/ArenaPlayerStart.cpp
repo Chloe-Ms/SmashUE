@@ -3,8 +3,6 @@
 
 #include "Arena/ArenaPlayerStart.h"
 
-
-
 float AArenaPlayerStart::GetStartOrientX() const
 {
 	switch (StartOrient)
