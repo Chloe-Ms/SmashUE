@@ -15,11 +15,14 @@ void AMatchGameMode::BeginPlay()
 
 	for (AArenaPlayerStart* PlayerStartPoint : PlayerStartsPoints)
 	{
+		EAutoReceiveInput::Type InputType = PlayerStartPoint->AutoReceiveInput.GetValue();
+		TSubclassOf<ASmashCharacter> SmashCharacterClass = GetSmashCharacterClassFromInputType(InputType);
+		if (SmashCharacterClass == nullptr) continue;
 		GEngine->AddOnScreenDebugMessage(
 			-1,
 			3.f,
 			FColor::Cyan,
-			PlayerStartPoint->GetFName().ToString());
+			SmashCharacterClass->GetFName().ToString());
 	}
 }
 
@@ -36,3 +39,25 @@ void AMatchGameMode::FindPlayerStartActorsInArena(TArray<AArenaPlayerStart*>& Re
 		ResultsActors.Add(ArenaPlayerStartActor);
 	}
 }
+
+TSubclassOf<ASmashCharacter> AMatchGameMode::GetSmashCharacterClassFromInputType(EAutoReceiveInput::Type InputType) const
+{
+	switch (InputType)
+	{
+		case EAutoReceiveInput::Player0:
+			return SmashCharacterClassP0;
+		
+		case EAutoReceiveInput::Player1:
+			return SmashCharacterClassP1;
+
+		case EAutoReceiveInput::Player2:
+			return SmashCharacterClassP2;
+		
+		case EAutoReceiveInput::Player3:
+			return SmashCharacterClassP3;
+
+		default:
+			return nullptr;
+	}
+}
+
