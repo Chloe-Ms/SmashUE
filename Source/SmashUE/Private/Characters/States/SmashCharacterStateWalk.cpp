@@ -3,17 +3,18 @@
 
 #include "Characters/States/SmashCharacterStateWalk.h"
 
+#include "Characters/SmashCharacter.h"
 #include "Characters/SmashCharacterStateID.h"
 
 
 // Sets default values for this component's properties
 USmashCharacterStateWalk::USmashCharacterStateWalk()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	// // Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+	// // off to improve performance if you don't need them.
+	// PrimaryComponentTick.bCanEverTick = true;
+	//
+	// // ...
 }
 
 ESmashCharacterStateID USmashCharacterStateWalk::GetStateID()
@@ -25,35 +26,40 @@ void USmashCharacterStateWalk::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		3.f,
-		FColor::Orange,
-		TEXT("Enter StateWalk")
-	);
+	// GEngine->AddOnScreenDebugMessage(
+	// 	-1,
+	// 	3.f,
+	// 	FColor::Orange,
+	// 	TEXT("Enter StateWalk")
+	// );
 }
 
 void USmashCharacterStateWalk::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
 
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		3.f,
-		FColor::Red,
-		TEXT("Exit StateWalk")
-	);
+	// GEngine->AddOnScreenDebugMessage(
+	// 	-1,
+	// 	3.f,
+	// 	FColor::Red,
+	// 	TEXT("Exit StateWalk")
+	// );
 }
 
 void USmashCharacterStateWalk::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
 
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		0.1f,
-		FColor::Green,
-		TEXT("Tick StateWalk")
-	);
+	FVector location = Character->GetActorLocation();
+	location.X += DeltaTime * WalkSpeedMax * Character->GetOrientX();
+	Character->SetActorLocation(location);
+	
+	// GEngine->AddOnScreenDebugMessage(
+	// 	-1,
+	// 	0.1f,
+	// 	FColor::Green,
+	// 	TEXT("Tick StateWalk")
+	// );
+	//Move()
 }
 

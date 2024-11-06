@@ -17,6 +17,7 @@ ASmashCharacter::ASmashCharacter()
 void ASmashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 	CreateStateMachine();
 
 	InitStateMachine();

@@ -29,6 +29,9 @@ public:
 
 	virtual void StateTick(float DeltaTime);
 
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UAnimMontage> AnimMontage;
+	
 protected:
 	UPROPERTY()
 	TObjectPtr<ASmashCharacter> Character;
