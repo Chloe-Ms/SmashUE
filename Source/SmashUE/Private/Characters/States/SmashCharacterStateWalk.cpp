@@ -50,10 +50,12 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
 
-	FVector location = Character->GetActorLocation();
-	location.X += DeltaTime * WalkSpeedMax * Character->GetOrientX();
-	Character->SetActorLocation(location);
+	// FVector location = Character->GetActorLocation();
+	// location.X += DeltaTime * WalkSpeedMax * Character->GetOrientX();
+	// Character->SetActorLocation(location);
 	
+	Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), DeltaTime * WalkSpeedMax);
+
 	// GEngine->AddOnScreenDebugMessage(
 	// 	-1,
 	// 	0.1f,
