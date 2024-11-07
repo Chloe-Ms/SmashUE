@@ -5,7 +5,7 @@
 
 #include "Characters/SmashCharacter.h"
 #include "Characters/SmashCharacterStateID.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values for this component's properties
 USmashCharacterStateWalk::USmashCharacterStateWalk()
@@ -53,8 +53,8 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 	// FVector location = Character->GetActorLocation();
 	// location.X += DeltaTime * WalkSpeedMax * Character->GetOrientX();
 	// Character->SetActorLocation(location);
-	
-	Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), DeltaTime * WalkSpeedMax);
+	Character->GetCharacterMovement()->MaxWalkSpeed = WalkSpeedMax;
+	Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
 
 	// GEngine->AddOnScreenDebugMessage(
 	// 	-1,
