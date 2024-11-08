@@ -20,6 +20,8 @@ void USmashCharacterStateRun::StateInit(USmashCharacterStateMachine* InStateMach
 void USmashCharacterStateRun::StateEnter(ESmashCharacterStateID PreviousStateID)
 {
 	Super::StateEnter(PreviousStateID);
+
+	Character->GetCharacterMovement()->MaxWalkSpeed = RunSpeedMax;
 }
 
 void USmashCharacterStateRun::StateExit(ESmashCharacterStateID NextStateID)
@@ -34,8 +36,7 @@ void USmashCharacterStateRun::StateTick(float DeltaTime)
 	// FVector location = Character->GetActorLocation();
 	// location.X += DeltaTime * RunSpeedMax * Character->GetOrientX();
 	// Character->SetActorLocation(location);
-
-	Character->GetCharacterMovement()->MaxWalkSpeed = RunSpeedMax;
+	
 	Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
 }
 

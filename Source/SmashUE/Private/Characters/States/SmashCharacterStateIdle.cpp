@@ -3,7 +3,9 @@
 
 #include "Characters/States/SmashCharacterStateIdle.h"
 
+#include "Characters/SmashCharacter.h"
 #include "Characters/SmashCharacterStateID.h"
+#include "Characters/SmashCharacterStateMachine.h"
 
 
 // Sets default values for this component's properties
@@ -55,4 +57,8 @@ void USmashCharacterStateIdle::StateTick(float DeltaTime)
 	// 	FColor::Green,
 	// 	TEXT("Tick StateIdle")
 	// );
+	if (FMath::Abs(Character->GetInputMoveX()) > 0.1f)
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Walk);
+	}
 }
