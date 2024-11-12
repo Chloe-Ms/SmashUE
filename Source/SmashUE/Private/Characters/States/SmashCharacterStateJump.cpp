@@ -19,6 +19,7 @@ USmashCharacterStateJump::USmashCharacterStateJump()
 void USmashCharacterStateJump::StateInit(USmashCharacterStateMachine* InStateMachine)
 {
 	Super::StateInit(InStateMachine);
+	//Air control à changer dans charactermovement
 }
 
 void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID)
