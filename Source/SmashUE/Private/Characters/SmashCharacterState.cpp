@@ -11,6 +11,7 @@
 // Sets default values for this component's properties
 USmashCharacterState::USmashCharacterState()
 {
+	CharacterSettings = GetDefault<USmashCharacterSettings>();
 	PrimaryComponentTick.bCanEverTick = false;
 }
 

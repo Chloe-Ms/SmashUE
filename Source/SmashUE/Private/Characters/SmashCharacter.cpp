@@ -6,6 +6,7 @@
 #include "Characters/SmashCharacterStateMachine.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Characters/SmashCharacterSettings.h"
 
 // Sets default values
 ASmashCharacter::ASmashCharacter()
@@ -18,7 +19,7 @@ ASmashCharacter::ASmashCharacter()
 void ASmashCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	CreateStateMachine();
 
 	InitStateMachine();
@@ -101,6 +102,12 @@ void ASmashCharacter::OnInputMoveX(const FInputActionValue& InputActionValue)
 	InputMoveX = InputActionValue.Get<float>();
 }
 
+void ASmashCharacter::OnInputMoveXFast(const FInputActionValue& InputActionValue)
+{
+	InputMoveX = InputActionValue.Get<float>();
+	InputMoveXFastEvent.Broadcast(InputMoveX);
+}
+
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
 {
 	if (InputData == nullptr) return;
@@ -124,6 +131,16 @@ void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* Enha
 			ETriggerEvent::Completed,
 			this,
 			&ASmashCharacter::OnInputMoveX
+		);
+	}
+
+	if (InputData->InputActionMoveXFast)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionMoveXFast,
+			ETriggerEvent::Triggered,
+			this,
+			&ASmashCharacter::OnInputMoveXFast
 		);
 	}
 }

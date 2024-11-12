@@ -4,6 +4,7 @@
 #include "Characters/States/SmashCharacterStateWalk.h"
 
 #include "Characters/SmashCharacter.h"
+#include "Characters/SmashCharacterSettings.h"
 #include "Characters/SmashCharacterStateID.h"
 #include "Characters/SmashCharacterStateMachine.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -28,24 +29,16 @@ void USmashCharacterStateWalk::StateEnter(ESmashCharacterStateID PreviousStateID
 	Super::StateEnter(PreviousStateID);
 
 	Character->GetCharacterMovement()->MaxWalkSpeed = WalkSpeedMax;
-	// GEngine->AddOnScreenDebugMessage(
-	// 	-1,
-	// 	3.f,
-	// 	FColor::Orange,
-	// 	TEXT("Enter StateWalk")
-	// );
+	Character->InputMoveXFastEvent.AddDynamic(this,&USmashCharacterStateWalk::OnInputMoveXFast);
 }
 
 void USmashCharacterStateWalk::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
+	Character->InputMoveXFastEvent.RemoveDynamic(this,&USmashCharacterStateWalk::OnInputMoveXFast);
 
-	// GEngine->AddOnScreenDebugMessage(
-	// 	-1,
-	// 	3.f,
-	// 	FColor::Red,
-	// 	TEXT("Exit StateWalk")
-	// );
+
+	
 }
 
 void USmashCharacterStateWalk::StateTick(float DeltaTime)
@@ -55,7 +48,7 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 	// FVector location = Character->GetActorLocation();
 	// location.X += DeltaTime * WalkSpeedMax * Character->GetOrientX();
 	// Character->SetActorLocation(location);
-	if (FMath::Abs(Character->GetInputMoveX()) < 0.1f)
+	if (FMath::Abs(Character->GetInputMoveX()) < CharacterSettings->InputMoveXThreshold)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	} else
@@ -63,13 +56,10 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 		Character->SetOrientX(Character->GetInputMoveX());
 		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
 	}
+}
 
-	// GEngine->AddOnScreenDebugMessage(
-	// 	-1,
-	// 	0.1f,
-	// 	FColor::Green,
-	// 	TEXT("Tick StateWalk")
-	// );
-	//Move()
+void USmashCharacterStateWalk::OnInputMoveXFast(float InputMoveX)
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::Run);
 }
 

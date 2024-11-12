@@ -24,7 +24,9 @@ public:
 
 	virtual void StateTick(float DeltaTime) override;
 
-	//TODO Add transition to speed
+	UFUNCTION()
+	void OnInputMoveXFast(float InputMoveX);
+
 	UPROPERTY(EditAnywhere)
 	float WalkSpeedMax = 50.f;
 };

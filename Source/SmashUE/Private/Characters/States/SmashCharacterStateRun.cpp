@@ -4,6 +4,7 @@
 #include "Characters/States/SmashCharacterStateRun.h"
 
 #include "Characters/SmashCharacter.h"
+#include "Characters/SmashCharacterStateMachine.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -32,12 +33,14 @@ void USmashCharacterStateRun::StateExit(ESmashCharacterStateID NextStateID)
 void USmashCharacterStateRun::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
-
-	// FVector location = Character->GetActorLocation();
-	// location.X += DeltaTime * RunSpeedMax * Character->GetOrientX();
-	// Character->SetActorLocation(location);
-	
-	Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
+	if (FMath::Abs(Character->GetInputMoveX()) < CharacterSettings->InputMoveXThreshold)
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
+	} else
+	{
+		Character->SetOrientX(Character->GetInputMoveX());
+		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
+	}
 }
 
 // Sets default values for this component's properties

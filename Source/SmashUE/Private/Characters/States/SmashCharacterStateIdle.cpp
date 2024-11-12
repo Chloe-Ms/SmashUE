@@ -4,6 +4,7 @@
 #include "Characters/States/SmashCharacterStateIdle.h"
 
 #include "Characters/SmashCharacter.h"
+#include "Characters/SmashCharacterSettings.h"
 #include "Characters/SmashCharacterStateID.h"
 #include "Characters/SmashCharacterStateMachine.h"
 
@@ -27,24 +28,14 @@ void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 
-	// GEngine->AddOnScreenDebugMessage(
-	// 	-1,
-	// 	3.f,
-	// 	FColor::Orange,
-	// 	TEXT("Enter StateIdle")
-	// );
+	Character->InputMoveXFastEvent.AddDynamic(this,&USmashCharacterStateIdle::OnInputMoveXFast);
 }
 
 void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
-
-	// GEngine->AddOnScreenDebugMessage(
-	// 	-1,
-	// 	3.f,
-	// 	FColor::Red,
-	// 	TEXT("Exit StateIdle")
-	// );
+	
+	Character->InputMoveXFastEvent.AddDynamic(this,&USmashCharacterStateIdle::OnInputMoveXFast);
 }
 
 void USmashCharacterStateIdle::StateTick(float DeltaTime)
@@ -57,8 +48,13 @@ void USmashCharacterStateIdle::StateTick(float DeltaTime)
 	// 	FColor::Green,
 	// 	TEXT("Tick StateIdle")
 	// );
-	if (FMath::Abs(Character->GetInputMoveX()) > 0.1f)
+	if (FMath::Abs(Character->GetInputMoveX()) > CharacterSettings->InputMoveXThreshold)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Walk);
 	}
+}
+
+void USmashCharacterStateIdle::OnInputMoveXFast(float InputMoveX)
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::Run);
 }
