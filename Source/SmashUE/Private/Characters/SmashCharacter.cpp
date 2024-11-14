@@ -45,6 +45,7 @@ void ASmashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	if (EnhancedInputComponent == nullptr) return;
 
 	BindInputMoveXAxisAndActions(EnhancedInputComponent);
+	BindInputJumpAndActions(EnhancedInputComponent);
 }
 
 float ASmashCharacter::GetOrientX() const
@@ -109,6 +110,11 @@ void ASmashCharacter::OnInputMoveXFast(const FInputActionValue& InputActionValue
 	InputMoveXFastEvent.Broadcast(InputMoveX);
 }
 
+void ASmashCharacter::OnInputJump(const FInputActionValue& InputActionValue)
+{
+	InputJump = InputActionValue.Get<bool>();
+}
+
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
 {
 	if (InputData == nullptr) return;
@@ -144,6 +150,48 @@ void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* Enha
 			&ASmashCharacter::OnInputMoveXFast
 		);
 	}
+}
+
+bool ASmashCharacter::GetInputJump() const
+{
+	return InputJump;
+}
+
+void ASmashCharacter::BindInputJumpAndActions(UEnhancedInputComponent* EnhancedInputComponent)
+{
+	if (InputData == nullptr) return;
+
+	if (InputData->InputActionJump)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionJump,
+			ETriggerEvent::Triggered,
+			this,
+			&ASmashCharacter::OnInputJump
+		);
+		 EnhancedInputComponent->BindAction(
+		 	InputData->InputActionJump,
+		 	ETriggerEvent::Started,
+		 	this,
+		 	&ASmashCharacter::OnInputJump
+		 );
+		 EnhancedInputComponent->BindAction(
+		 	InputData->InputActionJump,
+		 	ETriggerEvent::Completed,
+		 	this,
+		 	&ASmashCharacter::OnInputJump
+		);
+	}
+}
+
+FVector ASmashCharacter::GetFollowPosition()
+{
+	return GetActorLocation();
+}
+
+bool ASmashCharacter::IsFollowable()
+{
+	return true;
 }
 
 

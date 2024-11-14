@@ -4,29 +4,37 @@
 #include "Characters/States/SmashCharacterStateJump.h"
 
 #include "Characters/SmashCharacterStateMachine.h"
-
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values for this component's properties
 USmashCharacterStateJump::USmashCharacterStateJump()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+}
 
-	// ...
+ESmashCharacterStateID USmashCharacterStateJump::GetStateID()
+{
+	return ESmashCharacterStateID::Jump;
 }
 
 void USmashCharacterStateJump::StateInit(USmashCharacterStateMachine* InStateMachine)
 {
 	Super::StateInit(InStateMachine);
-	//Air control à changer dans charactermovement
 }
 
 void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID)
 {
 	Super::StateEnter(PreviousStateID);
-	InitialVelocityY = 2 * JumpMaxHeight / JumpDuration;
-	VelocityY = InitialVelocityY;
+	
+	float halfDuration = JumpDuration;
+	InitialVelocityY = 2 * JumpMaxHeight / halfDuration;
+	float computeGravity = - 2 * JumpMaxHeight / (halfDuration * halfDuration);
+	float gravityScale = - computeGravity / Gravity;
+	Character->GetCharacterMovement()->GravityScale = gravityScale;
+
+	Character->GetCharacterMovement()->MaxWalkSpeed = JumpWalkSpeed;
+	Character->GetCharacterMovement()->AirControl = JumpAirControl;
+	Character->GetCharacterMovement()->JumpZVelocity = InitialVelocityY;
+	Character->Jump();
 }
 
 void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
@@ -34,19 +42,23 @@ void USmashCharacterStateJump::StateExit(ESmashCharacterStateID NextStateID)
 	Super::StateExit(NextStateID);
 }
 
+void USmashCharacterStateJump::MoveHorizontally()
+{
+	if (FMath::Abs(Character->GetInputMoveX()) >= CharacterSettings->InputMoveXThreshold)
+	{
+		Character->SetOrientX(Character->GetInputMoveX());
+		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
+	}
+}
+
 void USmashCharacterStateJump::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
-
-	Timer += DeltaTime;
-	if (Timer <= JumpDuration)
+	MoveHorizontally();
+		
+	if (Character->GetCharacterMovement()->Velocity.Z <= 0.f)
 	{
-		float acc = 1/2 * Gravity * Timer * Timer + InitialVelocityY * Timer; 
-		VelocityY += acc * DeltaTime;
-		Character->AddMovementInput(FVector(0, 0, VelocityY));
-	} else if (Timer > (JumpDuration + JumpAirControl))
-	{
-		StateMachine->ChangeState(ESmashCharacterStateID::Jump);
+		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
 	}
 }
 

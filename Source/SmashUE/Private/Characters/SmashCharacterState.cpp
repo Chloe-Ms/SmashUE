@@ -11,7 +11,6 @@
 // Sets default values for this component's properties
 USmashCharacterState::USmashCharacterState()
 {
-	CharacterSettings = GetDefault<USmashCharacterSettings>();
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
@@ -24,6 +23,7 @@ void USmashCharacterState::StateInit(USmashCharacterStateMachine* InStateMachine
 {
 	StateMachine = InStateMachine;
 	Character = InStateMachine->GetCharacter();
+	CharacterSettings = GetDefault<USmashCharacterSettings>();
 }
 
 void USmashCharacterState::StateEnter(ESmashCharacterStateID PreviousStateID)

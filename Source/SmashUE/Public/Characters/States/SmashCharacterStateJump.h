@@ -10,10 +10,13 @@
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SMASHUE_API USmashCharacterStateJump : public USmashCharacterState
 {
-	GENERATED_BODY()
 private:
-	//Test
-	const float Gravity = 9.81f;
+	GENERATED_BODY()
+	
+	UPROPERTY()
+	float Gravity = 981;
+
+	void MoveHorizontally();
 	
 public:
 	UPROPERTY(EditAnywhere)
@@ -31,6 +34,8 @@ public:
 	// Sets default values for this component's properties
 	USmashCharacterStateJump();
 
+	virtual ESmashCharacterStateID GetStateID() override;
+
 	virtual void StateInit(USmashCharacterStateMachine* InStateMachine) override;
 	
 	virtual void StateEnter(ESmashCharacterStateID PreviousStateID) override;
@@ -45,11 +50,5 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY()
-	float Timer;
-
-	UPROPERTY()
 	float InitialVelocityY;
-
-	UPROPERTY()
-	float VelocityY;
 };

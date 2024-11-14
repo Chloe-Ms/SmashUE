@@ -7,6 +7,10 @@
 #include "Characters/SmashCharacterStateMachine.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+// Sets default values for this component's properties
+USmashCharacterStateRun::USmashCharacterStateRun()
+{
+}
 
 ESmashCharacterStateID USmashCharacterStateRun::GetStateID()
 {
@@ -41,20 +45,17 @@ void USmashCharacterStateRun::StateTick(float DeltaTime)
 		Character->SetOrientX(Character->GetInputMoveX());
 		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
 	}
-}
 
-// Sets default values for this component's properties
-USmashCharacterStateRun::USmashCharacterStateRun()
-{
+	if (Character->GetInputJump())
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Jump);
+	}
 }
-
 
 // Called when the game starts
 void USmashCharacterStateRun::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
 }
 

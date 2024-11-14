@@ -12,11 +12,6 @@
 // Sets default values for this component's properties
 USmashCharacterStateWalk::USmashCharacterStateWalk()
 {
-	// // Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// // off to improve performance if you don't need them.
-	// PrimaryComponentTick.bCanEverTick = true;
-	//
-	// // ...
 }
 
 ESmashCharacterStateID USmashCharacterStateWalk::GetStateID()
@@ -36,18 +31,12 @@ void USmashCharacterStateWalk::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
 	Character->InputMoveXFastEvent.RemoveDynamic(this,&USmashCharacterStateWalk::OnInputMoveXFast);
-
-
-	
 }
 
 void USmashCharacterStateWalk::StateTick(float DeltaTime)
 {
 	Super::StateTick(DeltaTime);
 
-	// FVector location = Character->GetActorLocation();
-	// location.X += DeltaTime * WalkSpeedMax * Character->GetOrientX();
-	// Character->SetActorLocation(location);
 	if (FMath::Abs(Character->GetInputMoveX()) < CharacterSettings->InputMoveXThreshold)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
@@ -55,6 +44,11 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 	{
 		Character->SetOrientX(Character->GetInputMoveX());
 		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
+	}
+
+	if (Character->GetInputJump())
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Jump);
 	}
 }
 
