@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CameraSettings.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "CameraWorldSubsystem.generated.h"
 
@@ -32,6 +33,9 @@ public:
 protected:
 	UPROPERTY()
 	TObjectPtr<UCameraComponent> CameraMain;
+	
+	UPROPERTY()
+	const UCameraSettings* CameraSettings;
 
 	void TickUpdateCameraZoom(float DeltaTime);
 	
@@ -85,12 +89,6 @@ protected:
 
 	UPROPERTY()
 	float CameraZoomYMax = 0.f;
-
-	UPROPERTY()
-	float CameraZoomDistanceBetweenTargetsMin = 300.f;
-
-	UPROPERTY()
-	float CameraZoomDistanceBetweenTargetsMax = 1500.f;
 
 	UFUNCTION()
 	void InitCameraZoomParameters();

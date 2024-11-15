@@ -43,6 +43,7 @@ void USmashCharacterStateWalk::StateTick(float DeltaTime)
 	} else
 	{
 		Character->SetOrientX(Character->GetInputMoveX());
+
 		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
 	}
 
