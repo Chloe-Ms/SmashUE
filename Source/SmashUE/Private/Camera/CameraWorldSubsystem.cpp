@@ -67,7 +67,6 @@ void UCameraWorldSubsystem::InitCameraZoomParameters()
 			CameraMain->GetOwner()->SetActorLocation(locationCameraMain);
 		}
 	}	
-	
 }
 
 void UCameraWorldSubsystem::TickUpdateCameraZoom(float DeltaTime)

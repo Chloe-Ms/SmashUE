@@ -105,12 +105,18 @@ private:
 public:
 	bool GetInputJump() const;
 	
+	bool GetInputFastFall() const { return InputFastFall; }
+	
 protected:
 	UPROPERTY()
 	bool InputJump = false;
+
+	bool InputFastFall = false;
 	
 private:
 	void OnInputJump(const FInputActionValue& InputActionValue);
+	
+	void OnInputFastFall(const FInputActionValue& InputActionValue);
 
 	void BindInputJumpAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 

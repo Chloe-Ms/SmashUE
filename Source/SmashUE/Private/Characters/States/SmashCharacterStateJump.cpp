@@ -56,7 +56,7 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 	Super::StateTick(DeltaTime);
 	MoveHorizontally();
 		
-	if (Character->GetCharacterMovement()->Velocity.Z <= 0.f)
+	if (Character->GetCharacterMovement()->Velocity.Z < 0.f)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
 	}

@@ -47,6 +47,11 @@ void USmashCharacterStateIdle::StateTick(float DeltaTime)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Jump);
 	}
+
+	if (Character->GetCharacterMovement()->Velocity.Z < 0.f)
+	{
+		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
+	}
 }
 
 void USmashCharacterStateIdle::OnInputMoveXFast(float InputMoveX)

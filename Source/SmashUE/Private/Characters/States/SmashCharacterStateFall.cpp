@@ -53,6 +53,10 @@ void USmashCharacterStateFall::StateTick(float DeltaTime)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	}
+	if (Character->GetInputFastFall())
+	{
+		Character->GetCharacterMovement()->GravityScale = FallFastGravityScale;
+	}
 }
 
 

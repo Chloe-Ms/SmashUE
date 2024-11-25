@@ -115,6 +115,11 @@ void ASmashCharacter::OnInputJump(const FInputActionValue& InputActionValue)
 	InputJump = InputActionValue.Get<bool>();
 }
 
+void ASmashCharacter::OnInputFastFall(const FInputActionValue& InputActionValue)
+{
+	InputFastFall = InputActionValue.Get<bool>();
+}
+
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
 {
 	if (InputData == nullptr) return;
@@ -180,6 +185,16 @@ void ASmashCharacter::BindInputJumpAndActions(UEnhancedInputComponent* EnhancedI
 		 	ETriggerEvent::Completed,
 		 	this,
 		 	&ASmashCharacter::OnInputJump
+		);
+	}
+
+	if (InputData->InputActionFallFast)
+	{
+		EnhancedInputComponent->BindAction(
+			InputData->InputActionFallFast,
+			ETriggerEvent::Triggered,
+			this,
+			&ASmashCharacter::OnInputFastFall
 		);
 	}
 }
