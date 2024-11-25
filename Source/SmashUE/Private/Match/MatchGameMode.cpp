@@ -8,12 +8,15 @@
 #include "Characters/SmashCharacter.h"
 #include "Characters/SmashCharacterSettings.h"
 #include "InputMappingContext.h"
+#include "LocalMultiplayerSettings.h"
+#include "LocalMultiplayerSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
 void AMatchGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
+	CreateAndInitPlayers();
+	
 	TArray<AArenaPlayerStart*> PlayerStartsPoints;
 	FindPlayerStartActorsInArena(PlayerStartsPoints);
 	SpawnCharacters(PlayerStartsPoints);
@@ -23,12 +26,18 @@ void AMatchGameMode::BeginPlay()
 		EAutoReceiveInput::Type InputType = PlayerStartPoint->AutoReceiveInput.GetValue();
 		TSubclassOf<ASmashCharacter> SmashCharacterClass = GetSmashCharacterClassFromInputType(InputType);
 		if (SmashCharacterClass == nullptr) continue;
-		// GEngine->AddOnScreenDebugMessage(
-		// 	-1,
-		// 	3.f,
-		// 	FColor::Cyan,
-		// 	SmashCharacterClass->GetFName().ToString());
 	}
+}
+
+void AMatchGameMode::CreateAndInitPlayers() const
+{
+	UGameInstance* GameInstance = GetWorld()->GetGameInstance();
+	if (GameInstance == nullptr) return;
+
+	ULocalMultiplayerSubsystem* LocalMultiplayerSubsystem = GameInstance->GetSubsystem<ULocalMultiplayerSubsystem>();
+	if (LocalMultiplayerSubsystem == nullptr) return;
+
+	LocalMultiplayerSubsystem->CreateAndInitPlayers(ELocalMultiplayerInputMappingType::InGame);
 }
 
 USmashCharacterInputData* AMatchGameMode::LoadInputDataFromConfig()

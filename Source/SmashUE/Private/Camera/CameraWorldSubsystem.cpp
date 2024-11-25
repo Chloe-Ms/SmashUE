@@ -41,6 +41,8 @@ void UCameraWorldSubsystem::InitCameraZoomParameters()
 {
 	TArray<AActor*> FoundCamerasMin, FoundCamerasMax;
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(),CameraSettings->CameraDistanceMinTag, FoundCamerasMin);
+	if (CameraMain == nullptr || CameraMain->GetOwner() == nullptr) return;
+	
 	FVector locationCameraMain = CameraMain->GetOwner()->GetActorLocation();
 
 	if (FoundCamerasMin.Num() > 0)
