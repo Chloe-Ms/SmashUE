@@ -94,6 +94,7 @@ void ASmashCharacter::SetupMappingContextIntoController() const
 	InputSystem->AddMappingContext(InputMappingContext,0);
 }
 
+#pragma region Input Movement
 float ASmashCharacter::GetInputMoveX() const
 {
 	return InputMoveX;
@@ -108,16 +109,6 @@ void ASmashCharacter::OnInputMoveXFast(const FInputActionValue& InputActionValue
 {
 	InputMoveX = InputActionValue.Get<float>();
 	InputMoveXFastEvent.Broadcast(InputMoveX);
-}
-
-void ASmashCharacter::OnInputJump(const FInputActionValue& InputActionValue)
-{
-	InputJump = InputActionValue.Get<bool>();
-}
-
-void ASmashCharacter::OnInputFastFall(const FInputActionValue& InputActionValue)
-{
-	InputFastFall = InputActionValue.Get<bool>();
 }
 
 void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* EnhancedInputComponent)
@@ -156,10 +147,18 @@ void ASmashCharacter::BindInputMoveXAxisAndActions(UEnhancedInputComponent* Enha
 		);
 	}
 }
+#pragma endregion 
 
-bool ASmashCharacter::GetInputJump() const
+#pragma region Input Jump
+
+void ASmashCharacter::OnInputJump(const FInputActionValue& InputActionValue)
 {
-	return InputJump;
+	InputJumpEvent.Broadcast();
+}
+
+void ASmashCharacter::OnInputFastFall(const FInputActionValue& InputActionValue)
+{
+	InputFastFallEvent.Broadcast();
 }
 
 void ASmashCharacter::BindInputJumpAndActions(UEnhancedInputComponent* EnhancedInputComponent)
@@ -198,6 +197,13 @@ void ASmashCharacter::BindInputJumpAndActions(UEnhancedInputComponent* EnhancedI
 		);
 	}
 }
+#pragma endregion 
+
+#pragma region Input Attack
+
+
+
+#pragma endregion
 
 FVector ASmashCharacter::GetFollowPosition()
 {

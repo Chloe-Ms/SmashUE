@@ -4,6 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "LocalMultiplayerSettings.h"
 #include "LocalMultiplayerSubsystem.h"
+#include "GameFramework/InputSettings.h"
 #include "GameFramework/PlayerInput.h"
 
 void ULocalMultiplayerGameViewportClient::PostInitProperties()
@@ -77,8 +78,13 @@ bool ULocalMultiplayerGameViewportClient::InputAxis(FViewport* InViewport, FInpu
 	
 	int AssignedPlayerIndex = LocalMultiplayerSubsystem->GetAssignedPlayerIndexFromGamepadDeviceID(InputDevice.GetId());
 
+	
 	if (AssignedPlayerIndex == -1)
 	{
+		//TODO Clean
+		if (UInputSettings::GetInputSettings()->AxisConfig[InputDevice.GetId()].AxisProperties.DeadZone > Delta)
+			return false;
+
 		AssignedPlayerIndex = LocalMultiplayerSubsystem->AssignNewPlayerToGamepadDeviceID(InputDevice.GetId());
 		LocalMultiplayerSubsystem->AssignGamepadInputMapping(
 			AssignedPlayerIndex,

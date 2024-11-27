@@ -13,6 +13,8 @@ class SMASHUE_API USmashCharacterStateFall : public USmashCharacterState
 private:
 	GENERATED_BODY()
 
+	UFUNCTION()
+	void OnInputFastFall();
 public:
 	UPROPERTY(EditAnywhere)
 	float FallHorizontalMoveSpeed = 100.f;

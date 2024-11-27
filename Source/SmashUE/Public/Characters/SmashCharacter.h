@@ -102,16 +102,16 @@ private:
 #pragma endregion
 
 #pragma region Input Jump
-public:
-	bool GetInputJump() const;
 	
-	bool GetInputFastFall() const { return InputFastFall; }
-	
-protected:
-	UPROPERTY()
-	bool InputJump = false;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInputJumpEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInputFastFallEvent);
 
-	bool InputFastFall = false;
+public:
+	UPROPERTY()
+	FInputJumpEvent InputJumpEvent;
+
+	UPROPERTY()
+	FInputFastFallEvent InputFastFallEvent;
 	
 private:
 	void OnInputJump(const FInputActionValue& InputActionValue);
@@ -122,6 +122,14 @@ private:
 
 #pragma endregion
 
+#pragma region Input Attack
+#pragma endregion
+
+#pragma region Input Attack Special
+public:
+	
+#pragma endregion
+	
 #pragma region Target
 	virtual FVector GetFollowPosition() override;
 	

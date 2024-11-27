@@ -27,4 +27,10 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UInputAction> InputActionFallFast;
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UInputAction> InputActionAttack;
+	
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UInputAction> InputActionSpecialAttack;
 };

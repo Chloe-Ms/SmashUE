@@ -27,11 +27,13 @@ void USmashCharacterStateRun::StateEnter(ESmashCharacterStateID PreviousStateID)
 	Super::StateEnter(PreviousStateID);
 
 	Character->GetCharacterMovement()->MaxWalkSpeed = RunSpeedMax;
+	Character->InputJumpEvent.AddDynamic(this,&USmashCharacterStateRun::OnInputJump);
 }
 
 void USmashCharacterStateRun::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
+	Character->InputJumpEvent.RemoveDynamic(this,&USmashCharacterStateRun::OnInputJump);
 }
 
 void USmashCharacterStateRun::StateTick(float DeltaTime)
@@ -45,16 +47,16 @@ void USmashCharacterStateRun::StateTick(float DeltaTime)
 		Character->SetOrientX(Character->GetInputMoveX());
 		Character->AddMovementInput(FVector::ForwardVector * Character->GetOrientX(), 1);
 	}
-
-	if (Character->GetInputJump())
-	{
-		StateMachine->ChangeState(ESmashCharacterStateID::Jump);
-	}
 	
 	if (Character->GetCharacterMovement()->Velocity.Z < 0.f)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
 	}
+}
+
+void USmashCharacterStateRun::OnInputJump()
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::Jump);
 }
 
 // Called when the game starts

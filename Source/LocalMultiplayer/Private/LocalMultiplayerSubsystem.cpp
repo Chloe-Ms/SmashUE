@@ -17,7 +17,7 @@ void ULocalMultiplayerSubsystem::CreateAndInitPlayers(ELocalMultiplayerInputMapp
 	{
 		if (!UGameplayStatics::GetPlayerController(GetWorld(),i))
 		{
-			APlayerController* PlayerController =  UGameplayStatics::CreatePlayer(GetWorld(),i);
+			UGameplayStatics::CreatePlayer(GetWorld(),i);
 		}
 	}
 }
@@ -59,8 +59,10 @@ void ULocalMultiplayerSubsystem::AssignKeyboardMapping(int PlayerIndex, int Keyb
 	ULocalPlayer* Player = PlayerController->GetLocalPlayer();
 	if (Player == nullptr) return;
 
+	FModifyContextOptions ModifyContextOptions;
+	ModifyContextOptions.bForceImmediately = true;
 	UEnhancedInputLocalPlayerSubsystem* InputSystem = Player->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
-	InputSystem->AddMappingContext(InputMappingContext,0);
+	InputSystem->AddMappingContext(InputMappingContext, 0, ModifyContextOptions);
 }
 
 int ULocalMultiplayerSubsystem::GetAssignedPlayerIndexFromGamepadDeviceID(int DeviceID)
@@ -98,6 +100,9 @@ void ULocalMultiplayerSubsystem::AssignGamepadInputMapping(int PlayerIndex,
 	ULocalPlayer* Player = PlayerController->GetLocalPlayer();
 	if (Player == nullptr) return;
 
+	FModifyContextOptions ModifyContextOptions;
+	ModifyContextOptions.bForceImmediately = true;
+	
 	UEnhancedInputLocalPlayerSubsystem* InputSystem = Player->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
-	InputSystem->AddMappingContext(InputMappingContext,0);
+	InputSystem->AddMappingContext(InputMappingContext, 0, ModifyContextOptions);
 }

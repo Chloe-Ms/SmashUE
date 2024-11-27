@@ -10,11 +10,16 @@
 UCLASS(ClassGroup=(SmashCharacterState), meta=(BlueprintSpawnableComponent))
 class SMASHUE_API USmashCharacterStateRun : public USmashCharacterState
 {
+private:
+	GENERATED_BODY()
+
 public:
+	USmashCharacterStateRun();
+	
 	virtual ESmashCharacterStateID GetStateID() override;
 	
 	virtual void StateInit(USmashCharacterStateMachine* InStateMachine) override;
-	
+
 	virtual void StateEnter(ESmashCharacterStateID PreviousStateID) override;
 	
 	virtual void StateExit(ESmashCharacterStateID NextStateID) override;
@@ -24,12 +29,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	float RunSpeedMax = 1000.f;
 
-private:
-	GENERATED_BODY()
-
-public:
-	// Sets default values for this component's properties
-	USmashCharacterStateRun();
+	UFUNCTION()
+	void OnInputJump();
 
 protected:
 	// Called when the game starts

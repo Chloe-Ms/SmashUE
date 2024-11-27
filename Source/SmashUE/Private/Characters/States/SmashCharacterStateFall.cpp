@@ -6,7 +6,6 @@
 #include "Characters/SmashCharacterStateMachine.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-
 // Sets default values for this component's properties
 USmashCharacterStateFall::USmashCharacterStateFall()
 {
@@ -28,11 +27,13 @@ void USmashCharacterStateFall::StateEnter(ESmashCharacterStateID PreviousStateID
 	Character->GetCharacterMovement()->AirControl = FallAirControl;
 	Character->GetCharacterMovement()->GravityScale = FallGravityScale;
 	Character->GetCharacterMovement()->MaxWalkSpeed = FallHorizontalMoveSpeed;
+	Character->InputFastFallEvent.AddDynamic(this, &USmashCharacterStateFall::OnInputFastFall);
 }
 
 void USmashCharacterStateFall::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
+	Character->InputFastFallEvent.RemoveDynamic(this, &USmashCharacterStateFall::OnInputFastFall);
 }
 
 void USmashCharacterStateFall::MoveHorizontally()
@@ -53,12 +54,12 @@ void USmashCharacterStateFall::StateTick(float DeltaTime)
 	{
 		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	}
-	if (Character->GetInputFastFall())
-	{
-		Character->GetCharacterMovement()->GravityScale = FallFastGravityScale;
-	}
 }
 
+void USmashCharacterStateFall::OnInputFastFall()
+{
+	Character->GetCharacterMovement()->GravityScale = FallFastGravityScale;
+}
 
 // Called when the game starts
 void USmashCharacterStateFall::BeginPlay()
