@@ -29,4 +29,7 @@ public:
 
 	UFUNCTION()
 	void OnInputJump();
+
+	UFUNCTION()
+	void OnInputNormalSpecialAttack();
 };

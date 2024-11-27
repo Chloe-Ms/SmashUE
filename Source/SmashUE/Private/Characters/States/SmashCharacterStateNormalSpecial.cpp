@@ -1,10 +1,10 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Characters/States/SmashCharacterStateSpecialAttackCharge.h"
+#include "Characters/States/SmashCharacterStateNormalSpecial.h"
 
 // Called when the game starts
-void USmashCharacterStateSpecialAttackCharge::BeginPlay()
+void USmashCharacterStateNormalSpecial::BeginPlay()
 {
 	Super::BeginPlay();
 }

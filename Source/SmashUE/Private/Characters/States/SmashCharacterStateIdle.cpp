@@ -26,6 +26,7 @@ void USmashCharacterStateIdle::StateEnter(ESmashCharacterStateID PreviousStateID
 
 	Character->InputMoveXFastEvent.AddDynamic(this,&USmashCharacterStateIdle::OnInputMoveXFast);
 	Character->InputJumpEvent.AddDynamic(this,&USmashCharacterStateIdle::OnInputJump);
+	Character->InputNormalSpecialAttack.AddDynamic(this, &USmashCharacterStateIdle::OnInputNormalSpecialAttack);
 }
 
 void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
@@ -34,6 +35,7 @@ void USmashCharacterStateIdle::StateExit(ESmashCharacterStateID NextStateID)
 	
 	Character->InputMoveXFastEvent.RemoveDynamic(this,&USmashCharacterStateIdle::OnInputMoveXFast);
 	Character->InputJumpEvent.RemoveDynamic(this,&USmashCharacterStateIdle::OnInputJump);
+	Character->InputNormalSpecialAttack.RemoveDynamic(this, &USmashCharacterStateIdle::OnInputNormalSpecialAttack);
 }
 
 void USmashCharacterStateIdle::StateTick(float DeltaTime)
@@ -59,4 +61,9 @@ void USmashCharacterStateIdle::OnInputMoveXFast(float InputMoveX)
 void USmashCharacterStateIdle::OnInputJump()
 {
 	StateMachine->ChangeState(ESmashCharacterStateID::Jump);
+}
+
+void USmashCharacterStateIdle::OnInputNormalSpecialAttack()
+{
+	StateMachine->ChangeState(ESmashCharacterStateID::SpecialAttack);
 }

@@ -46,6 +46,7 @@ void ASmashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 	BindInputMoveXAxisAndActions(EnhancedInputComponent);
 	BindInputJumpAndActions(EnhancedInputComponent);
+	BindInputAttackAndActions(EnhancedInputComponent);
 }
 
 float ASmashCharacter::GetOrientX() const
@@ -95,6 +96,7 @@ void ASmashCharacter::SetupMappingContextIntoController() const
 }
 
 #pragma region Input Movement
+
 float ASmashCharacter::GetInputMoveX() const
 {
 	return InputMoveX;
@@ -201,7 +203,20 @@ void ASmashCharacter::BindInputJumpAndActions(UEnhancedInputComponent* EnhancedI
 
 #pragma region Input Attack
 
+void ASmashCharacter::OnInputNormalSpecialAttack(const FInputActionValue& InputActionValue)
+{
+	InputNormalSpecialAttack.Broadcast();
+}
 
+void ASmashCharacter::BindInputAttackAndActions(UEnhancedInputComponent* EnhancedInputComponent)
+{
+	EnhancedInputComponent->BindAction(
+		InputData->InputActionNormalSpecialAttack,
+		ETriggerEvent::Triggered,
+		this,
+		&ASmashCharacter::OnInputNormalSpecialAttack
+		);
+}
 
 #pragma endregion
 

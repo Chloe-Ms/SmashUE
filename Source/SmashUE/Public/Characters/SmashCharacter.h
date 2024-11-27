@@ -123,10 +123,14 @@ private:
 #pragma endregion
 
 #pragma region Input Attack
-#pragma endregion
-
-#pragma region Input Attack Special
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInputNormalSpecialAttack);
 public:
+	FInputNormalSpecialAttack InputNormalSpecialAttack;
+
+private:
+	void OnInputNormalSpecialAttack(const FInputActionValue& InputActionValue);
+
+	void BindInputAttackAndActions(UEnhancedInputComponent* EnhancedInputComponent);
 	
 #pragma endregion
 	

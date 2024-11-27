@@ -30,6 +30,9 @@ public:
 	UFUNCTION()
 	void OnInputJump();
 	
+	UFUNCTION()
+	void OnInputNormalSpecialAttack();
+	
 	UPROPERTY(EditAnywhere)
 	float WalkSpeedMax = 50.f;
 };
