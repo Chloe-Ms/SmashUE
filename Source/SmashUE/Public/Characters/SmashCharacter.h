@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "InputActionValue.h"
+#include "SmashCharacterStateID.h"
 #include "Camera/CameraFollowTarget.h"
 #include "GameFramework/Character.h"
 #include "SmashCharacter.generated.h"
@@ -11,6 +12,7 @@
 class USmashCharacterSettings;
 class UInputMappingContext;
 class USmashCharacterInputData;
+class USmashCharacterState;
 class USmashCharacterStateMachine;
 
 UCLASS()
@@ -24,6 +26,8 @@ public:
 	// Sets default values for this character's properties
 	ASmashCharacter();
 
+	UPROPERTY(EditAnywhere)
+	TMap<ESmashCharacterStateID,TSubclassOf<USmashCharacterState>> OverridenStates;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -139,4 +143,5 @@ private:
 	
 	virtual bool IsFollowable() override;
 #pragma endregion
+	
 };

@@ -11,6 +11,8 @@
 /**
  * 
  */
+class USmashCharacterState;
+
 UCLASS(Config=Game, DefaultConfig, meta = (DisplayName = "Smash Character Settings"))
 class SMASHUE_API USmashCharacterSettings : public UDeveloperSettings
 {
@@ -25,4 +27,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Inputs")
 	float InputMoveXThreshold = 0.1f;
+
+	UPROPERTY(Config, EditAnywhere, Category="States")
+	TArray<TSubclassOf<USmashCharacterState>> CharacterStates;
 };

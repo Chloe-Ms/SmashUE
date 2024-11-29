@@ -60,10 +60,3 @@ void USmashCharacterStateFall::OnInputFastFall()
 {
 	Character->GetCharacterMovement()->GravityScale = FallFastGravityScale;
 }
-
-// Called when the game starts
-void USmashCharacterStateFall::BeginPlay()
-{
-	Super::BeginPlay();
-}
-

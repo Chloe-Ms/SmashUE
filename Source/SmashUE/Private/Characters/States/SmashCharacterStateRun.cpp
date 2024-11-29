@@ -65,10 +65,3 @@ void USmashCharacterStateRun::OnInputNormalSpecialAttack()
 	StateMachine->ChangeState(ESmashCharacterStateID::SpecialAttack);
 }
 
-// Called when the game starts
-void USmashCharacterStateRun::BeginPlay()
-{
-	Super::BeginPlay();
-
-}
-

@@ -35,8 +35,4 @@ public:
 	UFUNCTION()
 	void OnInputNormalSpecialAttack();
 	
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 };

@@ -2,10 +2,3 @@
 
 
 #include "Characters/States/SmashCharacterStateNormalSpecial.h"
-
-// Called when the game starts
-void USmashCharacterStateNormalSpecial::BeginPlay()
-{
-	Super::BeginPlay();
-}
-

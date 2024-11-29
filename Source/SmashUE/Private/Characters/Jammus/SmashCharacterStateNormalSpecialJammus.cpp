@@ -2,10 +2,23 @@
 
 #include "Characters/Jammus/SmashCharacterStateNormalSpecialJammus.h"
 
-// Called when the game starts
-void USmashCharacterStateNormalSpecialJammus::BeginPlay()
+void USmashCharacterStateNormalSpecialJammus::StateInit(USmashCharacterStateMachine* InStateMachine)
 {
-	Super::BeginPlay();
-	
+	Super::StateInit(InStateMachine);
+}
+
+void USmashCharacterStateNormalSpecialJammus::StateEnter(ESmashCharacterStateID PreviousStateID)
+{
+	Super::StateEnter(PreviousStateID);
+}
+
+void USmashCharacterStateNormalSpecialJammus::StateExit(ESmashCharacterStateID NextStateID)
+{
+	Super::StateExit(NextStateID);
+}
+
+void USmashCharacterStateNormalSpecialJammus::StateTick(float DeltaTime)
+{
+	Super::StateTick(DeltaTime);
 }
 

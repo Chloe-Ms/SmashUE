@@ -11,8 +11,8 @@
 class ASmashCharacter;
 class USmashCharacterStateMachine;
 
-UCLASS(Abstract)
-class SMASHUE_API USmashCharacterState : public UActorComponent
+UCLASS(Abstract, Blueprintable)
+class SMASHUE_API USmashCharacterState : public UObject
 {
 	GENERATED_BODY()
 
@@ -32,7 +32,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAnimMontage> AnimMontage;
-	
+
 protected:
 	UPROPERTY()
 	TObjectPtr<ASmashCharacter> Character;

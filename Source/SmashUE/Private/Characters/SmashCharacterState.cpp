@@ -11,7 +11,6 @@
 // Sets default values for this component's properties
 USmashCharacterState::USmashCharacterState()
 {
-	PrimaryComponentTick.bCanEverTick = false;
 }
 
 ESmashCharacterStateID USmashCharacterState::GetStateID()

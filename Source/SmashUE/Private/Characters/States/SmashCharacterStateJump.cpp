@@ -25,11 +25,11 @@ void USmashCharacterStateJump::StateEnter(ESmashCharacterStateID PreviousStateID
 {
 	Super::StateEnter(PreviousStateID);
 	
-	float halfDuration = JumpDuration;
-	InitialVelocityY = 2 * JumpMaxHeight / halfDuration;
-	float computeGravity = - 2 * JumpMaxHeight / (halfDuration * halfDuration);
-	float gravityScale = - computeGravity / Gravity;
-	Character->GetCharacterMovement()->GravityScale = gravityScale;
+	float HalfDuration = JumpDuration;
+	InitialVelocityY = 2 * JumpMaxHeight / HalfDuration;
+	float ComputeGravity = - 2 * JumpMaxHeight / (HalfDuration * HalfDuration);
+	float GravityScale = - ComputeGravity / Gravity;
+	Character->GetCharacterMovement()->GravityScale = GravityScale;
 
 	Character->GetCharacterMovement()->MaxWalkSpeed = JumpWalkSpeed;
 	Character->GetCharacterMovement()->AirControl = JumpAirControl;
@@ -61,11 +61,3 @@ void USmashCharacterStateJump::StateTick(float DeltaTime)
 		StateMachine->ChangeState(ESmashCharacterStateID::Fall);
 	}
 }
-
-
-// Called when the game starts
-void USmashCharacterStateJump::BeginPlay()
-{
-	Super::BeginPlay();
-}
-

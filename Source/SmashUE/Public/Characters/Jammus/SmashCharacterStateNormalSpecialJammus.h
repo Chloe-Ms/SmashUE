@@ -25,10 +25,6 @@ public:
 private:
 	GENERATED_BODY()
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 public:
 	UPROPERTY(EditAnywhere)
 	float TimeCharging = 3.0f;
