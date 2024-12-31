@@ -212,7 +212,7 @@ void ASmashCharacter::BindInputAttackAndActions(UEnhancedInputComponent* Enhance
 {
 	EnhancedInputComponent->BindAction(
 		InputData->InputActionNormalSpecialAttack,
-		ETriggerEvent::Triggered,
+		ETriggerEvent::Started,
 		this,
 		&ASmashCharacter::OnInputNormalSpecialAttack
 		);

@@ -6,18 +6,15 @@
 #include "Characters/States/SmashCharacterStateNormalSpecial.h"
 #include "SmashCharacterStateNormalSpecialJammus.generated.h"
 
-UENUM(BlueprintType)
-enum class SmashCharacterNormalSpecialState : uint8
-{
-	Charging,
-	Charged
-};
+class AJammusEnergyBall;
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class SMASHUE_API USmashCharacterStateNormalSpecialJammus : public USmashCharacterStateNormalSpecial
 {
 public:
 	virtual void StateInit(USmashCharacterStateMachine* InStateMachine) override;
+	UFUNCTION()
+	void OnEnergyBallCharged();
 	virtual void StateEnter(ESmashCharacterStateID PreviousStateID) override;
 	virtual void StateExit(ESmashCharacterStateID NextStateID) override;
 	virtual void StateTick(float DeltaTime) override;
@@ -25,8 +22,19 @@ public:
 private:
 	GENERATED_BODY()
 
+	UFUNCTION()
+	void OnInputNormalSpecialAttack();
+
+	UFUNCTION()
+	void Shoot();
+
+	UPROPERTY()
+	AJammusEnergyBall* StoredEnergyBall;
+
 public:
 	UPROPERTY(EditAnywhere)
-	float TimeCharging = 3.0f;
+	FVector BallLocationOffset;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AJammusEnergyBall> EnergyBall;
 };

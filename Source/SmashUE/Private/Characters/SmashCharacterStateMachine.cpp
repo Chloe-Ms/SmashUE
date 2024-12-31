@@ -12,7 +12,7 @@ void USmashCharacterStateMachine::Init(ASmashCharacter* InCharacter)
 	Character = InCharacter;
 	FindStates();
 	InitStates();
-
+	
 	ChangeState(ESmashCharacterStateID::Idle);
 }
 

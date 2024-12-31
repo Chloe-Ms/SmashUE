@@ -3,11 +3,13 @@
 
 #include "Characters/Jammus/JammusEnergyBall.h"
 
+#include "Characters/SmashCharacter.h"
+#include "Characters/Jammus/SmashCharacterStateNormalSpecialJammus.h"
+
 
 // Sets default values
 AJammusEnergyBall::AJammusEnergyBall()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
@@ -15,12 +17,43 @@ AJammusEnergyBall::AJammusEnergyBall()
 void AJammusEnergyBall::BeginPlay()
 {
 	Super::BeginPlay();
-	
+}
+
+void AJammusEnergyBall::Init(ASmashCharacter* Character, USmashCharacterStateNormalSpecialJammus* State)
+{
+	JammusSmashCharacter = Character;
+	NormalSpecialState = State;
+}
+
+void AJammusEnergyBall::StartCharging()
+{
+	AttackState = ESmashCharacterNormalSpecialState::Charging;
+	ReceiveChargeStart();
+}
+
+void AJammusEnergyBall::Shoot(float Orientation)
+{
+	AttackState = ESmashCharacterNormalSpecialState::None;
+	ReceiveChargeStop();
+	ReceiveShoot(Orientation);
 }
 
 // Called every frame
 void AJammusEnergyBall::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (AttackState == ESmashCharacterNormalSpecialState::Charging)
+	{
+		CurrentTimeCharged += DeltaTime;
+		ChargeRatio = CurrentTimeCharged/TimeToFullyCharge;
+		if (CurrentTimeCharged >= TimeToFullyCharge)
+		{
+			CurrentTimeCharged = TimeToFullyCharge;
+			ChargeRatio = 1.f;
+			AttackState = ESmashCharacterNormalSpecialState::Charged;
+			OnChargedEvent.Broadcast();
+			ReceiveChargeStop();
+		}
+	}
 }
 

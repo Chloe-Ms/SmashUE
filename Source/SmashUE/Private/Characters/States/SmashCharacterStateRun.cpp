@@ -35,6 +35,7 @@ void USmashCharacterStateRun::StateExit(ESmashCharacterStateID NextStateID)
 {
 	Super::StateExit(NextStateID);
 	Character->InputJumpEvent.RemoveDynamic(this,&USmashCharacterStateRun::OnInputJump);
+	Character->InputNormalSpecialAttack.RemoveDynamic(this, &USmashCharacterStateRun::OnInputNormalSpecialAttack);
 }
 
 void USmashCharacterStateRun::StateTick(float DeltaTime)
