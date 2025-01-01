@@ -19,20 +19,24 @@ void USmashCharacterStateNormalSpecialJammus::StateEnter(ESmashCharacterStateID 
 {
 	Super::StateEnter(PreviousStateID);
 		
+	Character->InputNormalSpecialAttack.AddDynamic(this, &USmashCharacterStateNormalSpecialJammus::OnInputNormalSpecialAttack);
 	if (StoredEnergyBall == nullptr)
 	{
 		StoredEnergyBall = GetWorld()->SpawnActor<AJammusEnergyBall>(EnergyBall);
-		StoredEnergyBall->Init(StateMachine->GetCharacter(), this);
-		StoredEnergyBall->OnChargedEvent.AddDynamic(this, &USmashCharacterStateNormalSpecialJammus::OnEnergyBallCharged);
-		StoredEnergyBall->SetActorLocation(StateMachine->GetCharacter()->GetActorLocation() +
-			(StateMachine->GetCharacter()->GetOrientX() * BallLocationOffset));
-		StoredEnergyBall->StartCharging();
+		if (StoredEnergyBall != nullptr)
+		{
+			StoredEnergyBall->Init(StateMachine->GetCharacter(), this);
+			StoredEnergyBall->OnChargedEvent.AddDynamic(this, &USmashCharacterStateNormalSpecialJammus::OnEnergyBallCharged);
+			StoredEnergyBall->SetActorLocation(StateMachine->GetCharacter()->GetActorLocation()
+				+ (StateMachine->GetCharacter()->GetOrientX() * BallLocationOffset));
+			StoredEnergyBall->StartCharging();
+		}
 	} else
 	{
 		Shoot();
+		StateMachine->ChangeState(ESmashCharacterStateID::Idle);
 	}
 	
-	Character->InputNormalSpecialAttack.AddDynamic(this, &USmashCharacterStateNormalSpecialJammus::OnInputNormalSpecialAttack);
 }
 
 void USmashCharacterStateNormalSpecialJammus::StateExit(ESmashCharacterStateID NextStateID)
